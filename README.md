@@ -1,8 +1,6 @@
 # 🧩 Social Line Break Tool  
 社群換行工具（Threads / Instagram / Facebook）
 
-👉 https://你的帳號.github.io/social-line-break-tool/
-
 ---
 
 ## 📌 專案介紹
