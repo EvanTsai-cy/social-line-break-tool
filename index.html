@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Line Break Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- 左側：輸入與控制區 -->
+    <section class="panel editor-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Social Line Break Tool</p>
+        <h1>社群換行工具</h1>
+        <p class="subtext">
+          修正 Threads、Instagram、Facebook 的貼文換行，並預覽原始貼上與修正後的差異。
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item" id="charCount">字數 0</div>
+        <div class="stat-item" id="lineCount">行數 1</div>
+      </div>
+
+      <div class="control-group">
+        <label class="label" for="platformSelect">平台</label>
+        <select id="platformSelect" class="select">
+          <option value="threads">Threads</option>
+          <option value="ig">Instagram</option>
+          <option value="fb">Facebook</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <span class="label">顯示模式</span>
+        <div class="segmented-control">
+          <button type="button" class="segment-btn active" data-paste-mode="fixed">
+            修正後效果
+          </button>
+          <button type="button" class="segment-btn" data-paste-mode="raw">
+            原始貼上效果
+          </button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="label" for="inputText">輸入文案</label>
+        <textarea
+          id="inputText"
+          placeholder="例如：
+
+第一段第一行
+第一段第二行
+
+第二段
+
+第三段"
+        ></textarea>
+      </div>
+
+      <div class="button-row">
+        <button id="copyBtn" class="btn btn-primary">一鍵複製</button>
+        <button id="clearBtn" class="btn btn-secondary">清空</button>
+      </div>
+
+      <p id="copyFeedback" class="feedback"></p>
+    </section>
+
+    <!-- 右側：預覽區 -->
+    <section class="panel preview-panel">
+      <div class="preview-topbar">
+        <div>
+          <p class="eyebrow">Preview</p>
+          <h2 id="previewTitle">Threads 換行效果</h2>
+        </div>
+        <span id="previewModeBadge" class="preview-badge">修正後效果</span>
+      </div>
+
+      <div class="device-frame">
+        <div id="previewScreen" class="preview-screen platform-threads">
+          <!-- IG 頂部 -->
+          <div id="igTopBar" class="platform-topbar ig-topbar is-hidden">
+            <span class="topbar-title">Instagram</span>
+          </div>
+
+          <!-- 共用貼文卡 -->
+          <article class="post-card">
+            <div class="post-layout">
+              <img
+                id="previewAvatar"
+                class="avatar"
+                src="./images/avatar.jpg"
+                alt="Profile avatar"
+              />
+
+              <div class="post-body">
+                <header class="post-header">
+                  <div class="post-user-row">
+                    <span id="previewUsername" class="username">evlearning.92</span>
+
+                    <span id="previewVerified" class="verified-badge" title="Verified">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2.5l2.2 1.5 2.6-.1 1.3 2.2 2.2 1.3-.1 2.6 1.5 2.2-1.5 2.2.1 2.6-2.2 1.3-1.3 2.2-2.6-.1-2.2 1.5-2.2-1.5-2.6.1-1.3-2.2-2.2-1.3.1-2.6L2.5 12l1.5-2.2-.1-2.6 2.2-1.3 1.3-2.2 2.6.1L12 2.5z"></path>
+                        <path d="M9.3 12.2l1.8 1.8 3.8-4" class="check"></path>
+                      </svg>
+                    </span>
+
+                    <span id="previewDot" class="dot">·</span>
+                    <span id="previewTime" class="time">2h</span>
+                  </div>
+
+                  <button id="moreBtn" class="more-btn" type="button" aria-label="More options">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="5" cy="12" r="1.7"></circle>
+                      <circle cx="12" cy="12" r="1.7"></circle>
+                      <circle cx="19" cy="12" r="1.7"></circle>
+                    </svg>
+                  </button>
+                </header>
+
+                <div id="previewContent" class="post-content is-empty">
+                  你的文案會顯示在這裡
+                </div>
+
+                <div id="previewActions" class="post-actions">
+                  <button class="icon-btn" type="button" aria-label="Like">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12.1 20.2s-7.1-4.4-8.8-8.1c-1.3-2.9.1-6.1 3.2-7.1 2-.7 4.1 0 5.5 1.7 1.4-1.7 3.5-2.4 5.5-1.7 3.1 1 4.5 4.2 3.2 7.1-1.7 3.7-8.8 8.1-8.8 8.1z"></path>
+                    </svg>
+                  </button>
+
+                  <button class="icon-btn" type="button" aria-label="Reply">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M20 11.5c0 4.1-3.8 7.5-8.5 7.5-1.1 0-2.2-.2-3.1-.6L4 20l1.4-3.6c-1.2-1.3-1.9-3-1.9-4.9C3.5 7.4 7.3 4 12 4s8 3.4 8 7.5z"></path>
+                    </svg>
+                  </button>
+
+                  <button class="icon-btn" type="button" aria-label="Repost">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7 7h8.5l-2.4-2.4 1.4-1.4L19.3 8l-4.8 4.8-1.4-1.4L15.5 9H7a3 3 0 0 0-3 3v1H2v-1a5 5 0 0 1 5-5zm10 4v1a5 5 0 0 1-5 5H3.5l2.4 2.4-1.4 1.4L-.3 16l4.8-4.8 1.4 1.4L3.5 15H12a3 3 0 0 0 3-3v-1h2z"></path>
+                    </svg>
+                  </button>
+
+                  <button class="icon-btn" type="button" aria-label="Share">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M21 3L10 14"></path>
+                      <path d="M21 3l-7 18-3.2-7.8L3 10l18-7z"></path>
+                    </svg>
+                  </button>
+                </div>
+
+                <div id="previewMeta" class="post-meta">View all replies</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 全站說明 -->
+    <section class="site-footer-note">
+    <div class="site-footer-inner">
+        <h3 class="site-footer-title">社群換行工具｜IG、Threads、Facebook 空行排版</h3>
+
+        <p class="site-footer-text">
+        這是一個專門用來處理社群貼文換行與空行的工具，
+        支援 Threads、Instagram（IG）與 Facebook（FB）。
+        你可以在這裡直接調整文案格式，加入空行、段落與換行，
+        並預覽實際貼上到各平台後的顯示效果。
+        </p>
+
+        <p class="site-footer-text">
+        不同平台對換行的處理方式其實不一樣：
+        Instagram 通常會忽略開頭空行，且無法保留多行空白；
+        Facebook 會把多個空行壓縮成單一換行；
+        Threads 則會將空行轉換成段落樣式顯示。
+        這也是為什麼同一段文案貼到不同平台，排版會完全不同。
+        </p>
+
+        <p class="site-footer-text">
+        本工具提供「原始貼上效果」與「修正後效果」兩種模式，
+        幫助你快速比較差異，並自動插入零寬字元（zero-width space），
+        讓你在發文時能保留想要的空行與段落格式，
+        不需要再反覆貼上測試與手動調整。
+        </p>
+
+        <p class="site-footer-text">
+        如果你正在找「IG 空行怎麼打」、「Threads 換行怎麼用」、
+        「Facebook 貼文如何排版」等解法，
+        這個工具可以幫你一次解決不同平台的換行問題。
+        </p>
+
+        <p class="site-footer-text site-footer-small">
+        Preview results are based on observed platform behavior and may vary slightly depending on device or app version.
+        </p>
+    </div>
+    </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
